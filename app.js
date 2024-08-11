@@ -27,18 +27,17 @@ const hbs = handlebars.create({
         },
         // Indent each level by 20 pixels
         calculateIndentation: function(level) {
-            return level * 20; // 每层缩进20像素
+            return level * 20;
         },
         // Compare two values for equality
         eq: function(a, b) {
-            return a === b; // 比较两个值是否相等
+            return a === b;
         },
         // Check if at least one argument is true
         or: function(a, b) {
-            return a || b; // 检查至少一个参数为真
+            return a || b;
         },
         // Additional helper functions can be added as needed
-        // 可以根据需要添加更多的辅助函数
     }
 });
 app.engine("handlebars", hbs.engine);
