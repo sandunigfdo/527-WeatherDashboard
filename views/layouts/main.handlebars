@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="leaflet/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="anonymous">
+</head>
+<body>
+<!-- Header Section -->
+<header>
+    <nav>
+        <div class="logo">Weather Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/forecast">Forecast</a></li>
+            <li><a href="/map">Map</a></li>
+            <li><a href="/login">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main Content Section -->
+<main>
+    <!-- Weather Information Display -->
+    <section class="weather-info">
+        <h1>Current Weather</h1>
+        <div class="weather-card">
+            <div class="temperature">25°C</div>
+            <div class="details">
+                <p>Humidity: 60%</p>
+                <p>Wind Speed: 10 km/h</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map -->
+    <section class="weather-map">
+        <h2>Interactive Weather Map</h2>
+        <div id="map"></div> <!-- This is where the map will be rendered -->
+    </section>
+</main>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 Weather Dashboard. All rights reserved.</p>
+</footer>
+
+<!-- JavaScript Files -->
+<script src="/js/main.js"></script> <!-- Link to your JS file -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet.js for map -->
+</body>
+</html>

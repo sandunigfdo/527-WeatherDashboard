@@ -1,0 +1,78 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #106e77;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 10px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.weather-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.weather-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.weather-map {
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center; /* 确保地图在父容器中居中对齐 */
+}
+
+#map {
+    width: 100%;  /* 使地图容器的宽度占据父元素的100% */
+    max-width: 1500px;  /* 设置最大宽度，避免地图超出屏幕宽度 */
+    height: 400px;  /* 设置固定高度，确保地图的显示 */
+    margin-top: 20px;
+    border-radius: 8px; /* 添加圆角边框 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影以增强视觉效果 */
+}
+
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
