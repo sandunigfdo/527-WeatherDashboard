@@ -14,8 +14,7 @@ app.engine("handlebars", handlebars.create({
 }).engine);
 app.set("view engine", "handlebars");
 
-// Setup Handlebars with custom helper
-
+// Setup Handlebars with custom helpers
 const hbs = handlebars.create({
     defaultLayout: "main",
     helpers: {
