@@ -6,3 +6,7 @@ The Cloud-Based Weather Dashboard Application is designed to provide users with 
 - Run `npm install`
 - Run `node app.js` to start the application
 - If successful, you can access the application at `localhost:3000`
+
+# Leaflet configuration
+- Using Leaflet in [main.js](public%2Fjs%2Fmain.js)
+- Default settings in folder [leaflet](leaflet)
