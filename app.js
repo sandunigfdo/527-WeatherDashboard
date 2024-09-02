@@ -73,6 +73,9 @@ app.use(express.static(path.join(__dirname, "public")));
 const appRouter = require("./routes/routes.js");
 app.use(appRouter);
 
+const loginRouter = require("./routes/login.js");
+app.use(loginRouter);
+
 
 
 
