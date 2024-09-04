@@ -1,46 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="/css/style.css"> <!-- Link to your CSS file -->
-</head>
-<body>
-<!-- Header Section -->
-<header>
-    <nav>
-        <div class="logo">Weather Dashboard</div>
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/forecast">Forecast</a></li>
-            <li><a href="/map">Map</a></li>
-            <li><a href="/login">Login</a></li>
-        </ul>
-    </nav>
-</header>
 
-<!-- Login Form -->
-<main>
-    <section class="login-section">
-        <h1>Login</h1>
-        <form action="/login" method="POST">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-    </section>
-</main>
-
-<!-- Footer Section -->
-<footer>
-    <p>&copy; 2024 Weather Dashboard. All rights reserved.</p>
-</footer>
-</body>
-</html>
+<section class="login-section">
+    <h1>Login</h1>
+    <form action="/login" method="POST">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</section>
