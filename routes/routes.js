@@ -42,7 +42,6 @@ router.get('/login', (req, res) => {
     res.render('login', {
         title: 'Login Page'
     });
-    console.log("11223231");
 });
 
 // 处理登录表单提交
@@ -57,9 +56,24 @@ router.post('/login', (req, res) => {
         // 登录失败，返回登录页面并显示错误消息
         res.render('login', {
             title: 'Login Page',
-            errorMessage: 'Invalid username or password'
+            errorMessage: 'Invalid username or password',
+            current: 'login'
         });
     }
+});
+
+
+
+router.get('/forecast', (req, res) => {
+    res.render('forecast', {
+        title: 'Forecast Page'
+    });
+});
+
+router.get('/map', (req, res) => {
+    res.render('map', {
+        title: 'Map'
+    });
 });
 
 module.exports = router;

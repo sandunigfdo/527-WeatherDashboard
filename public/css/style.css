@@ -3,14 +3,96 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #5acec6;
 }
 
 header {
-    background-color: #106e77;
-    color: #fff;
+    color: #5acec6;
     padding: 10px 0;
 }
+
+
+
+/*Funny title*/
+:root{
+    --offset: 6px;
+}
+h2{
+    padding: 40px;
+    width: 980px;
+    font-size: 100px;
+    font-family: Helvetica;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: #1d1d1f;
+
+
+    /*!* 毛玻璃效果 *!*/
+    /*background: rgba(255, 255, 255, 0.25);  !* 半透明背景 *!*/
+    /*backdrop-filter: blur(10px);  !* 背景模糊 *!*/
+    /*-webkit-backdrop-filter: blur(10px);  !* 兼容性处理 *!*/
+
+    background-color: #f4f4f4;
+    border-radius: 30px;
+    box-shadow:  23px 23px 46px #46a19a,
+    -23px -23px 46px #6efbf2;
+}
+
+.mask{
+    height: 106px;
+    position: relative;
+    /*border: 1px solid red;*/
+    overflow: hidden;
+    margin-top: var(--offset);
+}
+
+.mask span{
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    top: 100px;
+    padding-bottom: var(--offset);
+
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-repeat: no-repeat;
+}
+
+.mask span[data-show]{
+    transform: translateY(-100%);
+    transition: .5s transform ease-in-out;
+}
+
+.mask span[data-up]{
+    transform: translateY(-200%);
+    transition: .5s transform ease-in-out;
+}
+
+.mask span:nth-child(1){
+    background-image: linear-gradient(45deg, #0ecffe
+    50%, #07a6f1);
+}
+
+.mask span:nth-child(2){
+    background-image: linear-gradient(45deg, #18e198
+    50%, #0ec15d);
+}
+
+.mask span:nth-child(3){
+    background-image: linear-gradient(45deg, #8a7cfb
+    50%, #633e9c);
+}
+
+.mask span:nth-child(4){
+    background-image: linear-gradient(45deg, #fa7671
+    50%, #f45f7f);
+}
+/*End of title*/
+
+
+
 
 nav {
     display: flex;
@@ -29,25 +111,69 @@ nav {
     display: flex;
 }
 
-.nav-links li {
-    margin: 0 10px;
-}
+/*.nav-links li {*/
+/*    margin: 0 10px;*/
+/*    !*山羊前端*!*/
+/*    border: none;*/
+/*    border-radius: 10em;*/
+/*    display: flex;*/
+/*    list-style: none;*/
+/*    background-color: #f5f5f5;*/
+/*    box-shadow: 20px 40px 40px #00000033;*/
+/*    padding: 10px;*/
+/*}*/
+/*.nav li a{*/
+/*    position: relative;*/
+/*    padding: 15px 50px;*/
+/*    font: 500 24px '优设标题黑';*/
+/*    border:none;*/
+/*    outline: none;*/
+/*    color: rgb(70, 100, 100);*/
+/*    display: inline-block;*/
+/*    text-decoration: none;*/
+/*    z-index: 3;*/
+/*}*/
+/*.slide1,*/
+/*.slide2{*/
+/*    position: absolute;*/
+/*    display: inline-block;*/
+/*    height: 60px;*/
+/*    border-radius: 10em;*/
+/*    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);*/
+/*}*/
+/*.slide1{*/
+/*    background-color: rgb(170, 190, 255);*/
+/*    z-index: 2;*/
+/*}*/
+/*.slide2{*/
+/*    opacity: 0;*/
+/*    background-color: rgba(170, 190, 255, .5);*/
+/*    z-index: 1;*/
+/*    box-shadow: 0 0 20px #ffffffaa inset;*/
+/*}*/
+/*.squeeze{*/
+/*    transform: scale(0.9);*/
+/*}*/
 
-.nav-links a {
-    color: #fff;
-    text-decoration: none;
-}
+/*.nav-links a {*/
+/*    color: #fff;*/
+/*    text-decoration: none;*/
+/*}*/
 
 .weather-info {
     padding: 20px;
     text-align: center;
+    max-width: 500px;  /* 设置最大宽度 */
+    margin: 20px auto; /* 让其水平居中 */
 }
 
 .weather-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 63px;
+    padding: 20px 30px;
+    color: #0c4843;
+    background: #5acec6;
+    box-shadow:  23px 23px 46px #46a19a,
+    -23px -23px 46px #6efbf2;
 }
 
 .weather-map {
@@ -55,15 +181,18 @@ nav {
     text-align: center;
     display: flex;
     justify-content: center;
+    box-shadow:  23px 23px 46px #46a19a,
+    -23px -23px 46px #6efbf2;
 }
 
 #map {
     width: 100%;
     max-width: 1500px;
-    height: 400px;
+    height: 1000px;
     margin-top: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 
@@ -75,6 +204,7 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+    z-index: 3;
 }
 
 
@@ -82,9 +212,11 @@ footer {
     width: 300px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #5acec6;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow:  23px 23px 46px #46a19a,
+    -23px -23px 46px #6efbf2;
+
 }
 
 .form-group {
@@ -110,6 +242,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+
 }
 
 button:hover {

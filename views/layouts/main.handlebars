@@ -10,19 +10,88 @@
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        .logo{
+            font: 500 24px '优设标题黑';
+            padding: 15px 50px;
+            margin: 0 30px;
+            border: none;
+            border-radius: 10em;
+            display: flex;
+            list-style: none;
+            background-color: #bbf6eb;
+            box-shadow:  23px 23px 46px #46a19a,
+            -23px -23px 46px #6efbf2;
+            color: rgb(70, 100, 100);
+        }
+        .nav {
+            margin: 0 10px;
+            border: none;
+            border-radius: 10em;
+            display: flex;
+            list-style: none;
+            background-color: #bbf6eb;
+            box-shadow:  23px 23px 46px #46a19a,
+            -23px -23px 46px #6efbf2;
+            padding: 10px;
+        }
+        .nav li a{
+            position: relative;
+            padding: 15px 50px;
+            font: 500 24px '优设标题黑';
+            border:none;
+            outline: none;
+            color: rgb(70, 100, 100);
+            display: inline-block;
+            text-decoration: none;
+            z-index: 3;
+        }
+        .nav li a.active{
+            background-color: #106e77;
+            color: #fff;
+        }
+        .slide1,
+        .slide2{
+            position: absolute;
+            display: inline-block;
+            height: 60px;
+            border-radius: 10em;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+        }
+        .slide1{
+            background-color: #91caff;
+            z-index: 2;
+        }
+        .slide2{
+            opacity: 0;
+            background-color: rgba(170, 190, 255, .5);
+            z-index: 1;
+            box-shadow: 0 0 20px #91caff inset;
+        }
+        .squeeze{
+            transform: scale(0.9);
+        }
 
+    </style>
 
 </head>
 <body>
 <!-- Header Section -->
 <header>
     <nav>
-        <div class="logo">Weather Dashboard</div>
-        <ul class="nav-links">
+
+        <div class="logo">
+            Weather Dashboard
+        </div>
+
+        <ul class="nav">
+            <li class="slide1"></li>
+            <li class="slide2"></li>
             <li><a href="/">Home</a></li>
             <li><a href="/forecast">Forecast</a></li>
             <li><a href="/map">Map</a></li>
             <li><a href="/login">Login</a></li>
+
         </ul>
     </nav>
 </header>
@@ -42,4 +111,36 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet.js for map -->
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 设置鼠标点击事件
+        $(".nav a").on("click", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $(".nav .slide1").css({opacity: 1, left: +position.left, width: width});
+        });
+
+        // 设置鼠标悬停事件
+        $(".nav a").on("mouseover", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $(".nav .slide2").css({opacity: 1, left: +position.left, width: width}).addClass("squeeze");
+        });
+
+        // 设置鼠标移出事件
+        $(".nav a").on("mouseout", function () {
+            $(".nav .slide2").css({opacity: 0}).removeClass("squeeze");
+        });
+
+        // 页面加载时，设置当前活动按钮的滑动条位置
+        var activeLink = $(".nav a.active");
+        if (activeLink.length > 0) {
+            var position = activeLink.parent("li").position();
+            var width = activeLink.parent("li").width();
+            $(".nav .slide1").css({left: +position.left, width: width});
+        }
+    });
+
+</script>
 </html>

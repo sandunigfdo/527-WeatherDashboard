@@ -1,17 +1,35 @@
 <!-- Weather Information Display -->
-<section class="weather-info">
-    <h1>Current Weather</h1>
-    <div class="weather-card">
-        <div class="temperature">Temperature: {{temperature}}</div>
-        <div class="details">
-            <p>Humidity: {{humidity}}</p>
-            <p>Wind Speed: {{windSpeed}}</p>
-        </div>
+
+<h2>
+    Where the Skies Tell Their Stories
+    <div class="mask">
+        <span data-show>Sunbeams</span>
+        <span >Breezy Mornings</span>
+        <span>Stormy Night</span>
+        <span>Everyday</span>
     </div>
-</section>
+
+</h2>
 
 <!-- Interactive Map -->
 <section class="weather-map">
-    <h2>Interactive Weather Map</h2>
+<!--    <h2>Interactive Weather Map</h2>-->
     <div id="map"></div> <!-- This is where the map will be rendered -->
 </section>
+
+<script>
+    setInterval(function () {
+        const show = document.querySelector('span[data-show]')
+        const next = show.nextElementSibling || document.querySelector('span:first-child')
+        const up = document.querySelector('span[data-up]')
+
+        if(up){
+            up.removeAttribute('data-up')
+        }
+
+        show.removeAttribute('data-show')
+        show.setAttribute('data-up', '')
+
+        next.setAttribute('data-show', '')
+    }, 2000)
+</script>
