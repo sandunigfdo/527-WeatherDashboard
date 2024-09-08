@@ -10,3 +10,5 @@ The Cloud-Based Weather Dashboard Application is designed to provide users with 
 # Leaflet configuration
 - Using Leaflet in [main.js](public%2Fjs%2Fmain.js)
 - Default settings in folder [leaflet](public/leaflet)
+- 
+123testing
