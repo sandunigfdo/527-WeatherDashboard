@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 
 // 主页路由，获取天气数据并渲染页面
-router.get('/forecast', async (req, res) => {
+router.get('/current', async (req, res) => {
     try {
         // First, fetch the latitude and longitude from Geoapify
         const geoApiKey = process.env.API_KEY;
@@ -46,7 +46,7 @@ router.get('/forecast', async (req, res) => {
         const rain = weatherData.current.rain;
         const windSpeed = weatherData.current.wind_speed_10m;
 
-        res.render('forecast', {
+        res.render('current', {
             temperature: `${temperature}°C`,
             humidity: `${humidity}%`,
             rain: `${rain} mm`,
@@ -54,7 +54,7 @@ router.get('/forecast', async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching weather data:', error);
-        res.render('Forecast Page', {
+        res.render('current', {
             error: 'Unable to load weather data'
         });
     }
