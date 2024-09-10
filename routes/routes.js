@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 
-// 主页路由，获取天气数据并渲染页面
+// 主页路由，获取目前位置天气数据并渲染页面
 router.get('/current', async (req, res) => {
     try {
         // First, fetch the latitude and longitude from Geoapify
