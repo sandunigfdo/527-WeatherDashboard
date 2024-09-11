@@ -62,6 +62,12 @@ app.use(session({
     secret: process.env.SESSION_SECRET || "default_secret" // Use environment variable for secret
 }));
 
+app.use((req, res, next) => {
+    res.locals.isLoggedIn = req.session.isLoggedIn || false; // 判断用户是否已登录
+    res.locals.user = req.session.user || null; // 用户信息
+    next();
+});
+
 // Set the "public" folder as a static file directory, making its contents directly accessible
 // 将 "public" 文件夹设置为静态文件目录，使其内容可以直接被访问
 const path = require("path");

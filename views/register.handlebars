@@ -1,0 +1,79 @@
+<section class="userform-section">
+    <h1>Register</h1>
+    <form id="register-form">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}"
+                title="Password must be at least 8 characters long and contain at least 1 number, 1 special character, 1 uppercase letter, and 1 lowercase letter"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+            <small id="passwordError" style="color:red; display:none;">Passwords do not match</small>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+            <label for="subscribe">
+                <input type="checkbox" id="subscribe" name="subscribe"> Subscribe to newsletters?
+            </label>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</section>
+
+<script>
+    function validatePasswords() {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirm-password').value;
+        var passwordError = document.getElementById('passwordError');
+
+        if (password !== confirmPassword) {
+            passwordError.style.display = 'block'; // 显示错误信息
+            return false; // 阻止表单提交
+        } else {
+            passwordError.style.display = 'none'; // 隐藏错误信息
+            return true; // 允许表单提交
+        }
+    }
+
+    document.getElementById('register-form').addEventListener('submit', async function (event) {
+        event.preventDefault(); // 防止默认表单提交行为
+
+        if (!validatePasswords()) {
+            return; // 如果密码不匹配，阻止提交
+        }
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
+            const result = await response.json();
+
+            // 重定向到确认页面
+            window.location.href = result.redirectUrl;
+        } catch (error) {
+            console.error('Registration failed:', error);
+            alert(`Registration failed: ${error.message}`);
+        }
+    });
+</script>

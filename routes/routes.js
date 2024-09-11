@@ -10,10 +10,29 @@ function checkLogin(req, res, next) {
         res.redirect('/login'); // 如果未登录，重定向到登录页面
     }
 }
+
+
 router.get('/', (req, res) => {
     res.render('home', {
         title: 'Home Page'
     });
+});
+
+
+router.get('/login', (req, res) => {
+    res.render('Login');
+});
+
+router.get('/register', (req, res) => {
+    res.render('Register');
+});
+
+router.get('/confirm', (req, res) => {
+    res.render('confirm');
+});
+
+router.get('/customise', (req, res) => {
+    res.render('customise');
 });
 
 
@@ -65,11 +84,6 @@ router.get('/map', (req, res) => {
     res.render('map', {
         title: 'Map'
     });
-});
-
-
-router.get('/login', (req, res) => {
-    res.render('login', { title: 'Login' });
 });
 
 
