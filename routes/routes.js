@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
+const { getGeoLocation, getWeather } = require('../public/js/weatherService');
 
 // 会话中间件检查登录状态
 function checkLogin(req, res, next) {
@@ -20,37 +20,15 @@ router.get('/', (req, res) => {
 // 主页路由，获取目前位置天气数据并渲染页面
 router.get('/current', async (req, res) => {
     try {
-        // First, fetch the latitude and longitude from Geoapify
-        const geoApiKey = process.env.API_KEY;
         const cityName = "Hamilton";
-        const geoUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(cityName)}&filter=countrycode:nz&apiKey=${geoApiKey}`;
-
-        const geoResponse = await axios.get(geoUrl);
-        const geoData = geoResponse.data;
-
-        if (!geoData || !geoData.features || !geoData.features.length) {
-            throw new Error('No geolocation found for the specified city');
-        }
-
-        const latitude = geoData.features[0].properties.lat;
-        const longitude = geoData.features[0].properties.lon;
-
-        // Then, use these coordinates to fetch weather data from Open-Meteo
-        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,rain,wind_speed_10m&timezone=Pacific%2FAuckland`;
-
-        const weatherResponse = await axios.get(weatherUrl);
-        const weatherData = weatherResponse.data;
-
-        const temperature = weatherData.current.temperature_2m;
-        const humidity = weatherData.current.relative_humidity_2m;
-        const rain = weatherData.current.rain;
-        const windSpeed = weatherData.current.wind_speed_10m;
+        const { latitude, longitude } = await getGeoLocation(cityName);
+        const { temperature, relative_humidity_2m, rain, wind_speed_10m } = await getWeather(latitude, longitude);
 
         res.render('current', {
             temperature: `${temperature}°C`,
-            humidity: `${humidity}%`,
+            humidity: `${relative_humidity_2m}%`,
             rain: `${rain} mm`,
-            windSpeed: `${windSpeed} km/h`
+            windSpeed: `${wind_speed_10m} km/h`
         });
     } catch (error) {
         console.error('Error fetching weather data:', error);
