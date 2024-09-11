@@ -18,7 +18,7 @@ app.set("view engine", "handlebars");
 const hbs = handlebars.create({
     defaultLayout: "main",
     helpers: {
-        if_eq: function(a, b, opts) {
+        if_eq: function (a, b, opts) {
             if (a == b) {
                 return opts.fn(this);
             } else {
@@ -26,15 +26,15 @@ const hbs = handlebars.create({
             }
         },
         // Indent each level by 20 pixels
-        calculateIndentation: function(level) {
+        calculateIndentation: function (level) {
             return level * 20;
         },
         // Compare two values for equality
-        eq: function(a, b) {
+        eq: function (a, b) {
             return a === b;
         },
         // Check if at least one argument is true
-        or: function(a, b) {
+        or: function (a, b) {
             return a || b;
         },
         // Additional helper functions can be added as needed
@@ -73,8 +73,8 @@ app.use(express.static(path.join(__dirname, "public")));
 const appRouter = require("./routes/routes.js");
 app.use(appRouter);
 
-
-
+const userRouter = require("./routes/users.js");
+app.use(userRouter);
 
 
 app.listen(port, function () {
