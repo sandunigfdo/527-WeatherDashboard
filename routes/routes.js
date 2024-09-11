@@ -10,10 +10,29 @@ function checkLogin(req, res, next) {
         res.redirect('/login'); // 如果未登录，重定向到登录页面
     }
 }
+
+
 router.get('/', (req, res) => {
     res.render('home', {
         title: 'Home Page'
     });
+});
+
+
+router.get('/login', (req, res) => {
+    res.render('Login');
+});
+
+router.get('/register', (req, res) => {
+    res.render('Register');
+});
+
+router.get('/confirm', (req, res) => {
+    res.render('confirm');
+});
+
+router.get('/customise', (req, res) => {
+    res.render('customise');
 });
 
 
@@ -38,35 +57,6 @@ router.get('/current', async (req, res) => {
     }
 });
 
-// 登录页面路由
-//login page routes
-router.get('/login', (req, res) => {
-    res.render('login', {
-        title: 'Login Page'
-    });
-});
-
-// 处理登录表单提交
-router.post('/login', (req, res) => {
-    const { username, password } = req.body;
-
-    // 简单的用户名和密码检查（实际应用中应使用数据库和加密）
-    if (username === 'admin' && password === 'password') {
-        // 登录成功，重定向到首页
-        res.redirect('/');
-    } else {
-        // 登录失败，返回登录页面并显示错误消息
-        res.render('login', {
-            title: 'Login Page',
-            errorMessage: 'Invalid username or password',
-            current: 'login'
-        });
-    }
-});
-
-
-
-
 
 router.get('/map', (req, res) => {
     res.render('map', {
@@ -74,5 +64,5 @@ router.get('/map', (req, res) => {
     });
 });
 
-module.exports = router;
 
+module.exports = router;

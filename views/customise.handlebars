@@ -1,0 +1,84 @@
+<section class="userform-section">
+    <h1>Edit Profile</h1>
+    <form id="customise-form">
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+            <label for="subscribe">
+                <input type="checkbox" id="subscribe" name="subscribe"> Subscribe to newsletters?
+            </label>
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+    <div id="message" style="color: green; display: none;"></div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/get-user-info', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user information');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('User info:', data);
+                if (data.city) {
+                    document.getElementById('city').value = data.city; // 填充城市信息
+                }
+                if (data.isSubscribed !== undefined) {
+                    document.getElementById('subscribe').checked = data.isSubscribed === true; // 设置订阅复选框的状态
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error);
+                document.getElementById('message').textContent = 'Failed to load user data. Please login in.';
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').style.display = 'block';
+            });
+    });
+
+    document.getElementById('customise-form').addEventListener('submit', async function (event) {
+        event.preventDefault(); // 阻止默认表单提交行为
+
+        const city = document.getElementById('city').value;
+        const subscribe = document.getElementById('subscribe').checked ? '1' : '0';
+        const messageDiv = document.getElementById('message');
+
+        try {
+            const response = await fetch('/customise', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ city, subscribe }) // 发送 JSON 数据
+            });
+
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
+            const result = await response.json();
+            messageDiv.textContent = result.message || 'Profile updated successfully!';
+            messageDiv.style.display = 'block';
+
+            // 在 2 秒后刷新页面
+            setTimeout(() => {
+                location.reload(); // 刷新页面
+            }, 2000);
+
+        } catch (error) {
+            messageDiv.textContent = `Error: ${error.message}`;
+            messageDiv.style.color = 'red';
+            messageDiv.style.display = 'block';
+        }
+    });
+</script>
