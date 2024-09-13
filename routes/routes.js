@@ -21,11 +21,11 @@ router.get('/', (req, res) => {
 
 
 router.get('/login', (req, res) => {
-    res.render('Login');
+    res.render('login');
 });
 
 router.get('/register', (req, res) => {
-    res.render('Register');
+    res.render('register');
 });
 
 router.get('/confirm', (req, res) => {
