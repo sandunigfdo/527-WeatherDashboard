@@ -72,22 +72,22 @@ h2{
 
 .mask span:nth-child(1){
     background-image: linear-gradient(45deg, #0ecffe
-    50%, #07a6f1);
+    50%, #005681);
 }
 
 .mask span:nth-child(2){
     background-image: linear-gradient(45deg, #18e198
-    50%, #0ec15d);
+    50%, #00883a);
 }
 
 .mask span:nth-child(3){
     background-image: linear-gradient(45deg, #8a7cfb
-    50%, #633e9c);
+    50%, #300079);
 }
 
 .mask span:nth-child(4){
     background-image: linear-gradient(45deg, #fa7671
-    50%, #f45f7f);
+    50%, #d9002f);
 }
 /*End of title*/
 
@@ -113,7 +113,6 @@ nav {
 
 /*.nav-links li {*/
 /*    margin: 0 10px;*/
-/*    !*山羊前端*!*/
 /*    border: none;*/
 /*    border-radius: 10em;*/
 /*    display: flex;*/
@@ -174,8 +173,18 @@ nav {
     background: #5acec6;
     box-shadow:  23px 23px 46px #46a19a,
     -23px -23px 46px #6efbf2;
-}
 
+}
+.userform-section {
+    border-radius: 63px;
+    padding: 20px 30px;
+    color: #0c4843;
+    background: #5acec6;
+    box-shadow:  23px 23px 46px #46a19a,
+    -23px -23px 46px #6efbf2;
+    max-width: 500px;  /* 设置最大宽度 */
+    margin: 20px auto; /* 让其水平居中 */
+}
 .weather-map {
     padding: 20px;
     text-align: center;
@@ -229,6 +238,12 @@ label {
 }
 
 input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+input[type="text"], input[type="email"] {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;

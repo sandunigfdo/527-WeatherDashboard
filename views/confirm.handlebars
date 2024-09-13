@@ -1,0 +1,55 @@
+<section class="userform-section">
+    <h1>Email Confirmation</h1>
+    <form action="/confirm" method="POST" id="confirm-form">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <label for="code">Confirmation Code:</label>
+            <input type="text" id="code" name="code" required placeholder="Enter confirmation code">
+        </div>
+        <button type="submit">Confirm Email</button>
+    </form>
+
+    <div id="message" style="display: none; color: red;"></div>
+</section>
+
+<script>
+    document.getElementById('confirm-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const code = document.getElementById('code').value;
+        const messageDiv = document.getElementById('message');
+
+        try {
+            const response = await fetch('/confirm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, code })
+            });
+
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
+            const result = await response.json();
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = 'Email confirmed successfully! Redirecting to homepage...';
+
+            // 在 2 秒后重定向到主页
+            setTimeout(() => {
+                window.location.href = '/'; // 跳转到主页
+            }, 2000);
+
+        } catch (error) {
+            messageDiv.style.color = 'red';
+            messageDiv.textContent = `Error: ${error.message}`;
+        }
+
+        messageDiv.style.display = 'block';
+    });
+</script>

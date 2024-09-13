@@ -10,3 +10,13 @@ The Cloud-Based Weather Dashboard Application is designed to provide users with 
 # Leaflet configuration
 - Using Leaflet in [main.js](public%2Fjs%2Fmain.js)
 - Default settings in folder [leaflet](public/leaflet)
+
+# Register Environment Initial
+- Create a new file with name [.env](.env) in the root of the project
+- Input CLIENT_SECRET with your key:
+`CLIENT_SECRET = your_key`
+
+# Set up current weather functions
+- Add `API_KEY = api_key` to the [.env](.env) file
+
+All keys cannot be public and get them in the group chat please.
