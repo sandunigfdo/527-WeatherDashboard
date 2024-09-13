@@ -24,7 +24,30 @@ document.addEventListener('DOMContentLoaded', function () {
             L.marker(latlng).addTo(map)
                 .bindPopup(e.geocode.name)
                 .openPopup();
+
+            fetchWeatherAndShowPopup(marker, [latlng.lat, latlng.lng], e.geocode.name);
             map.setView(latlng, 15); // 根据搜索结果居中地图
         })
         .addTo(map);
+
+    // 获取天气数据并展示在标记的弹出窗口中
+    function fetchWeatherAndShowPopup(marker, latlng, placeName) {
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latlng[0]}&longitude=${latlng[1]}&current_weather=true`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const weather = data.current_weather;
+                const popupContent = `
+                <b>${placeName}</b><br>
+                <b>Temperature:</b> ${weather.temperature}°C<br>
+                <b>Wind Speed:</b> ${weather.windspeed} km/h
+            `;
+                marker.bindPopup(popupContent).openPopup();
+            })
+            .catch(error => {
+                console.error('Error fetching weather data:', error);
+                marker.bindPopup(`<b>${placeName}</b><br>Weather data not available`).openPopup();
+            });
+    }
 });

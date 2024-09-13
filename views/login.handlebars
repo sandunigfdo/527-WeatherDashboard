@@ -1,9 +1,9 @@
-<section class="login-section">
+<section class="userform-section">
     <h1>Login</h1>
-    <form action="/login" method="POST">
+    <form id="login-form">
         <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
@@ -11,4 +11,42 @@
         </div>
         <button type="submit">Login</button>
     </form>
+    <div id="error-message" style="color:red; display:none;"></div>
 </section>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', async function (event) {
+        event.preventDefault(); // 阻止表单的默认提交行为
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorMessageDiv = document.getElementById('error-message');
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password }) // 将表单数据转换为 JSON 格式
+            });
+
+            if (!response.ok) {
+                throw new Error(await response.text()); // 获取错误信息
+            }
+
+            const result = await response.json();
+
+            // 重定向到服务器返回的 redirectUrl
+            if (result.redirectUrl) {
+                window.location.href = result.redirectUrl;
+            } else {
+                alert('Login successful, but no redirect URL provided.');
+            }
+        } catch (error) {
+            // 显示错误消息
+            errorMessageDiv.textContent = `Login failed: ${error.message}`;
+            errorMessageDiv.style.display = 'block';
+        }
+    });
+</script>

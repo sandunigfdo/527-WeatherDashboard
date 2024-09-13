@@ -72,22 +72,22 @@ h2{
 
 .mask span:nth-child(1){
     background-image: linear-gradient(45deg, #0ecffe
-    50%, #07a6f1);
+    50%, #005681);
 }
 
 .mask span:nth-child(2){
     background-image: linear-gradient(45deg, #18e198
-    50%, #0ec15d);
+    50%, #00883a);
 }
 
 .mask span:nth-child(3){
     background-image: linear-gradient(45deg, #8a7cfb
-    50%, #633e9c);
+    50%, #300079);
 }
 
 .mask span:nth-child(4){
     background-image: linear-gradient(45deg, #fa7671
-    50%, #f45f7f);
+    50%, #d9002f);
 }
 /*End of title*/
 

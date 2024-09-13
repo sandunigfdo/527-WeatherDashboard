@@ -19,7 +19,7 @@
             border-radius: 10em;
             display: flex;
             list-style: none;
-            background-color: #bbf6eb;
+            background-color: #5acec6;
             box-shadow:  23px 23px 46px #46a19a,
             -23px -23px 46px #6efbf2;
             color: rgb(70, 100, 100);
@@ -30,7 +30,7 @@
             border-radius: 10em;
             display: flex;
             list-style: none;
-            background-color: #bbf6eb;
+            background-color: #5acec6;
             box-shadow:  23px 23px 46px #46a19a,
             -23px -23px 46px #6efbf2;
             padding: 10px;
@@ -59,14 +59,14 @@
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
         }
         .slide1{
-            background-color: #91caff;
+            background-color: #ffc069;
             z-index: 2;
         }
         .slide2{
             opacity: 0;
-            background-color: rgba(170, 190, 255, .5);
+            background-color: #ffa940;
             z-index: 1;
-            box-shadow: 0 0 20px #91caff inset;
+            box-shadow: 0 0 20px #ffd591 inset;
         }
         .squeeze{
             transform: scale(0.9);
@@ -88,9 +88,16 @@
             <li class="slide1"></li>
             <li class="slide2"></li>
             <li><a href="/">Home</a></li>
-            <li><a href="/forecast">Forecast</a></li>
+            <li><a href="/current">Current</a></li>
             <li><a href="/map">Map</a></li>
-            <li><a href="/login">Login</a></li>
+
+            {{#if isLoggedIn}}
+                <li><a href="/customise">Customise</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {{else}}
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+            {{/if}}
 
         </ul>
     </nav>
