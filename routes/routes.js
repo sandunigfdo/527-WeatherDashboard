@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getGeoLocation, getWeather } = require('../public/js/weatherService');
+const { fetchUserDetails } =require('../routes/users');
 
 // 会话中间件检查登录状态
 function checkLogin(req, res, next) {
@@ -38,13 +39,18 @@ router.get('/customise', (req, res) => {
 
 // 主页路由，获取目前位置天气数据并渲染页面
 router.get('/current', async (req, res) => {
+    if (!req.session.user || !req.session.user.token) {
+        return res.status(401).send('User not authenticated');
+    }
     try {
-        const cityName = "Hamilton";
+        const userDetails = await fetchUserDetails(req.session.user.token);
+        const cityName = userDetails.city;
         const { latitude, longitude } = await getGeoLocation(cityName);
-        const { temperature, relative_humidity_2m, rain, wind_speed_10m } = await getWeather(latitude, longitude);
+        const { temperature_2m, relative_humidity_2m, rain, wind_speed_10m } = await getWeather(latitude, longitude);
 
         res.render('current', {
-            temperature: `${temperature}°C`,
+            city: cityName,
+            temperature: `${temperature_2m}°C`,
             humidity: `${relative_humidity_2m}%`,
             rain: `${rain} mm`,
             windSpeed: `${wind_speed_10m} km/h`

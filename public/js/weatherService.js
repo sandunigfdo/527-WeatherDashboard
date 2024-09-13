@@ -6,6 +6,7 @@ const getGeoLocation = async (cityName) => {
 
     const response = await axios.get(geoUrl);
     const geoData = response.data;
+    console.log(geoData);
 
     if (!geoData || !geoData.features || !geoData.features.length) {
         throw new Error('No geolocation found for the specified city');
@@ -19,7 +20,9 @@ const getGeoLocation = async (cityName) => {
 
 const getWeather = async (latitude, longitude) => {
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,rain,wind_speed_10m&timezone=Pacific%2FAuckland`;
+    console.log(weatherUrl);
     const response = await axios.get(weatherUrl);
+    console.log(response.data.current)
     return response.data.current;
 };
 
