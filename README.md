@@ -12,7 +12,7 @@ The Cloud-Based Weather Dashboard Application is designed to provide users with 
 - Default settings in folder [leaflet](public/leaflet)
 
 # Register Environment Initial
-- Create a new file with name [.env](.env)
+- Create a new file with name [.env](.env) in the root of the project
 - Input CLIENT_SECRET with your key:
 `CLIENT_SECRET = your_key`
 

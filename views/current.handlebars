@@ -2,15 +2,24 @@
 <section class="weather-info">
 
     <div class="weather-card">
-        <h1>Current Weather In {{city}}</h1>
+        <h1>Current Weather In <%= city %></h1>
         <div class="temperature">
-            <i class="fas fa-thermometer-half"></i> Temperature: {{temperature}}
+            <i class="fas fa-thermometer-half"></i> Temperature: <%= temperature %>
         </div>
         <div class="details">
-            <p><i class="fas fa-tint"></i> Humidity: {{humidity}}</p>
-            <p><i class="fas fa-wind"></i> Wind Speed: {{windSpeed}}</p>
-            <p><i class="fas fa-cloud-rain"></i> Rain: {{rain}}</p>
-            <!--            define and implemented more functions down here-->
+            <p><i class="fas fa-tint"></i> Humidity: <%= humidity %></p>
+            <p><i class="fas fa-wind"></i> Wind Speed: <%= windSpeed %></p>
+            <p><i class="fas fa-cloud-rain"></i> Rain: <%= rain %></p>
         </div>
     </div>
 </section>
+
+<script>
+    // Check if there is an authentication error
+        {{#if authError}}
+        // If there is an authentication error, show an alert
+        alert("User not authenticated. Please log in.");
+        // Optionally, redirect to the login page
+        window.location.href = "/login";
+        {{/if}}
+</script>

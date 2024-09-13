@@ -40,7 +40,9 @@ router.get('/customise', (req, res) => {
 // 主页路由，获取目前位置天气数据并渲染页面
 router.get('/current', async (req, res) => {
     if (!req.session.user || !req.session.user.token) {
-        return res.status(401).send('User not authenticated');
+        return res.render('current', {
+            authError: true
+        });
     }
     try {
         const userDetails = await fetchUserDetails(req.session.user.token);
@@ -53,7 +55,8 @@ router.get('/current', async (req, res) => {
             temperature: `${temperature_2m}°C`,
             humidity: `${relative_humidity_2m}%`,
             rain: `${rain} mm`,
-            windSpeed: `${wind_speed_10m} km/h`
+            windSpeed: `${wind_speed_10m} km/h`,
+            authError: false // No authentication error
         });
     } catch (error) {
         console.error('Error fetching weather data:', error);
