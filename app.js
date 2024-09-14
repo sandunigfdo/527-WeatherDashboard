@@ -6,7 +6,7 @@ const handlebars = require("express-handlebars");
 const app = express();
 
 // Listen port will be loaded from .env file, or use 3000 if
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8081;
 
 // Setup Handlebars
 app.engine("handlebars", handlebars.create({
