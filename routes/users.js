@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
 const crypto = require('crypto');
+const { sendWebhook } = require('../public/js/notificationService');
 
 
 // 配置 AWS Cognito 参数
@@ -51,11 +52,14 @@ router.post('/register', (req, res) => {
     ]
   };
 
-  cognito.signUp(params, (err, data) => {
+  cognito.signUp(params, async (err, data) => {
     if (err) {
       console.error('Error registering user:', err);
       return res.status(400).send(err.message || JSON.stringify(err));
     }
+
+    const result = await sendWebhook(params.UserAttributes[0].Value, params.UserAttributes[1].Value);
+    console.log(result);
 
     // 返回确认页面的 URL
     res.json({
