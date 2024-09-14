@@ -12,6 +12,9 @@ function checkLogin(req, res, next) {
     }
 }
 
+// Serve static files - SSL verification files
+router.use(express.static('ssl'));
+
 
 router.get('/', (req, res) => {
     res.render('home', {
