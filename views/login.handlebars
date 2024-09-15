@@ -3,12 +3,13 @@
     <form id="login-form">
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required />
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required />
         </div>
+        <p>Forget your password? <a href="#" id="reset-password-link">Reset it here</a>.</p>
         <button type="submit">Login</button>
     </form>
     <div id="error-message" style="color:red; display:none;"></div>
@@ -35,9 +36,7 @@
                 throw new Error(await response.text()); // 获取错误信息
             }
 
-            const result = await response.json();
-
-            // 重定向到服务器返回的 redirectUrl
+            const result = await response.json(); // 重定向到服务器返回的 redirectUrl
             if (result.redirectUrl) {
                 window.location.href = result.redirectUrl;
             } else {
@@ -47,6 +46,40 @@
             // 显示错误消息
             errorMessageDiv.textContent = `Login failed: ${error.message}`;
             errorMessageDiv.style.display = 'block';
+        }
+    });
+
+    // 添加对"Reset it here"链接的点击事件监听
+    document.getElementById('reset-password-link').addEventListener('click', async function (event) {
+        const email = document.getElementById('email').value;
+
+        // 如果邮箱没有输入，则阻止跳转并提示
+        if (!email) {
+            event.preventDefault();
+            alert('Please enter your email address before resetting your password.');
+            return;
+        }
+
+        try {
+            // 发起POST请求到 /forgot-password
+            const response = await fetch('/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email }) // 发送用户输入的邮箱
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send password reset request.');
+            }
+
+            // 请求成功后进行页面跳转
+            window.location.href = `/reset-password?email=${encodeURIComponent(email)}`;
+        } catch (error) {
+            // 如果POST请求失败，显示错误信息
+            document.getElementById('error-message').textContent = `Error: ${error.message}`;
+            document.getElementById('error-message').style.display = 'block';
         }
     });
 </script>
