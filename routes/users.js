@@ -233,14 +233,46 @@ router.get("/get-user-info", (req, res) => {
   });
 });
 
+
+router.post('/delete-account', async (req, res) => {
+  if (!req.session.user || !req.session.user.token) {
+    console.log('User session or token not found');
+    return res.status(401).send("User not authenticated");
+  }
+
+  const params = {
+    AccessToken: req.session.user.token,
+  };
+
+  try {
+    console.log('Deleting user with token:', req.session.user.token);
+    await cognito.deleteUser(params).promise();
+
+    // 销毁会话，避免重复发送响应
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+        return res.status(500).json({ error: 'Failed to destroy session' });
+      }
+      // 确保只发送一次响应
+      return res.status(200).json({ message: 'User account deleted successfully' });
+    });
+  } catch (error) {
+    console.error('Error deleting user account:', error);
+    return res.status(500).json({ error: 'Failed to delete user account' });
+  }
+});
+
+
 // 登出
 router.get("/logout", (req, res) => {
   req.session.destroy((err) => {
-    res.redirect("/"); // 重定向到登录页面
+    res.redirect("/");
   });
 });
 
 module.exports = router; // 确保正确导出 router
+
 
 // 添加一个可重用的函数来获取用户信息
 function fetchUserDetails(sessionToken) {

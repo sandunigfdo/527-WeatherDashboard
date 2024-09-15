@@ -13,6 +13,7 @@
         <button type="submit">Save Changes</button>
     </form>
     <div id="message" style="color: green; display: none;"></div>
+    <button id="deleteAccountBtn" style="color: red;">Delete My Account</button>
 </section>
 
 <script>
@@ -23,27 +24,27 @@
                 'Content-Type': 'application/json'
             }
         })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch user information');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('User info:', data);
-                    if (data.city) {
-                        document.getElementById('city').value = data.city; // 填充城市信息
-                    }
-                    if (data.isSubscribed !== undefined) {
-                        document.getElementById('subscribe').checked = data.isSubscribed === true; // 设置订阅复选框的状态
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching user info:', error);
-                    document.getElementById('message').textContent = 'Failed to load user data. Please login in.';
-                    document.getElementById('message').style.color = 'red';
-                    document.getElementById('message').style.display = 'block';
-                });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user information');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('User info:', data);
+                if (data.city) {
+                    document.getElementById('city').value = data.city; // 填充城市信息
+                }
+                if (data.isSubscribed !== undefined) {
+                    document.getElementById('subscribe').checked = data.isSubscribed === true; // 设置订阅复选框的状态
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error);
+                document.getElementById('message').textContent = 'Failed to load user data. Please login in.';
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').style.display = 'block';
+            });
     });
 
     document.getElementById('customise-form').addEventListener('submit', async function (event) {
@@ -77,6 +78,44 @@
 
         } catch (error) {
             messageDiv.textContent = `Error: ${error.message}`;
+            messageDiv.style.color = 'red';
+            messageDiv.style.display = 'block';
+        }
+    });
+
+    document.getElementById('deleteAccountBtn').addEventListener('click', async function () {
+        const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+        if (!confirmation) return;
+
+        const messageDiv = document.getElementById('message');
+
+        try {
+            const response = await fetch('/delete-account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 401) {
+                // 如果未认证，重定向到登录页面
+                alert('You need to log in to delete your account.');
+                window.location.href = '/login';
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error('Account deletion failed');
+            }
+
+            const result = await response.json();
+            alert(result.message || 'Your account has been successfully deleted.');
+
+            // 前端处理重定向
+            window.location.href = '/';
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            messageDiv.textContent = `Error deleting account: ${error.message}`;
             messageDiv.style.color = 'red';
             messageDiv.style.display = 'block';
         }
