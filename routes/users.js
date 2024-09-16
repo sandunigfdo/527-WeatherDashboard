@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const AWS = require("aws-sdk");
 const crypto = require("crypto");
-const { sendWebhook } = require("../public/js/notificationService");
+const { sendWebhook } = require("../modules/notificationService");
 
 // Setting up AWS SDK
 const cognito = new AWS.CognitoIdentityServiceProvider({

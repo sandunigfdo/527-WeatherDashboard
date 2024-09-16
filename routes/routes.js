@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getGeoLocation, getWeather } = require('../public/js/weatherService');
+const { getGeoLocation, getWeather } = require('../modules/weatherService');
 const { fetchUserDetails } = require('../routes/users');
 
 // 会话中间件检查登录状态
