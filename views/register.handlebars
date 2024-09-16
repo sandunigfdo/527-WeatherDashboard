@@ -20,11 +20,7 @@
             <label for="city">City:</label>
             <input type="text" id="city" name="city" required>
         </div>
-        <div class="form-group">
-            <label for="subscribe">
-                <input type="checkbox" id="subscribe" name="subscribe"> Subscribe to newsletters?
-            </label>
-        </div>
+        <small>You will receive a verification code via email. Please confirm it in the next page.</small>
         <button type="submit">Register</button>
     </form>
 </section>
@@ -53,6 +49,7 @@
 
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
+        console.log('Registering user:', data);
 
         try {
             const response = await fetch('/register', {

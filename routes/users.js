@@ -23,7 +23,6 @@ function generateSecretHash(username, clientId, clientSecret) {
 // Registering a new user
 router.post("/register", (req, res) => {
   const { email, password, city } = req.body;
-  const subscribe = req.body.subscribe ? 1 : 0;
 
   const secretHash = generateSecretHash(email, CLIENT_ID, CLIENT_SECRET);
 
@@ -43,7 +42,7 @@ router.post("/register", (req, res) => {
       },
       {
         Name: "custom:isSubscribed",
-        Value: subscribe.toString(),
+        Value: '1',
       },
     ],
   };
@@ -124,7 +123,7 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/customise", (req, res) => {
-  const { city, subscribe } = req.body;
+  const { city } = req.body;
 
   if (!req.session.user || !req.session.user.token) {
     return res.status(401).send("User not authenticated");
@@ -139,7 +138,7 @@ router.post("/customise", (req, res) => {
       },
       {
         Name: "custom:isSubscribed",
-        Value: subscribe.toString(),
+        Value: '1',
       },
     ],
   };
@@ -220,15 +219,9 @@ router.get("/get-user-info", (req, res) => {
     const cityAttribute = data.UserAttributes.find(
       (attr) => attr.Name === "custom:City"
     );
-    const subscribeAttribute = data.UserAttributes.find(
-      (attr) => attr.Name === "custom:isSubscribed"
-    );
 
     res.json({
       city: cityAttribute ? cityAttribute.Value : "",
-      isSubscribed: subscribeAttribute
-        ? subscribeAttribute.Value === "1"
-        : false,
     });
   });
 });
@@ -287,15 +280,9 @@ function fetchUserDetails(sessionToken) {
         const cityAttribute = data.UserAttributes.find(
           (attr) => attr.Name === "custom:City"
         );
-        const subscribeAttribute = data.UserAttributes.find(
-          (attr) => attr.Name === "custom:isSubscribed"
-        );
 
         resolve({
           city: cityAttribute ? cityAttribute.Value : "",
-          isSubscribed: subscribeAttribute
-            ? subscribeAttribute.Value === "1"
-            : false,
         });
       }
     });

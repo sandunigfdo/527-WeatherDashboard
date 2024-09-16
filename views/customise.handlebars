@@ -5,14 +5,10 @@
             <label for="city">City:</label>
             <input type="text" id="city" name="city" required>
         </div>
-        <div class="form-group">
-            <label for="subscribe">
-                <input type="checkbox" id="subscribe" name="subscribe"> Subscribe to newsletters?
-            </label>
-        </div>
         <button type="submit">Save Changes</button>
     </form>
     <div id="message" style="color: green; display: none;"></div>
+    <div style="margin-bottom: 20px;"></div>
     <button id="deleteAccountBtn" style="color: red;">Delete My Account</button>
 </section>
 
@@ -35,9 +31,6 @@
                 if (data.city) {
                     document.getElementById('city').value = data.city; // 填充城市信息
                 }
-                if (data.isSubscribed !== undefined) {
-                    document.getElementById('subscribe').checked = data.isSubscribed === true; // 设置订阅复选框的状态
-                }
             })
             .catch(error => {
                 console.error('Error fetching user info:', error);
@@ -51,7 +44,6 @@
         event.preventDefault(); // 阻止默认表单提交行为
 
         const city = document.getElementById('city').value;
-        const subscribe = document.getElementById('subscribe').checked ? '1' : '0';
         const messageDiv = document.getElementById('message');
 
         try {
@@ -60,7 +52,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ city, subscribe }) // 发送 JSON 数据
+                body: JSON.stringify({ city }) // 发送 JSON 数据
             });
 
             if (!response.ok) {
