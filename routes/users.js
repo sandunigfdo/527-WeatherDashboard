@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const AWS = require("aws-sdk");
 const crypto = require("crypto");
-const { sendWebhook } = require("../public/js/notificationService");
+const { sendWebhook } = require("../modules/notificationService");
 
 // Setting up AWS SDK
 const cognito = new AWS.CognitoIdentityServiceProvider({
@@ -23,7 +23,6 @@ function generateSecretHash(username, clientId, clientSecret) {
 // Registering a new user
 router.post("/register", (req, res) => {
   const { email, password, city } = req.body;
-  const subscribe = req.body.subscribe ? 1 : 0;
 
   const secretHash = generateSecretHash(email, CLIENT_ID, CLIENT_SECRET);
 
@@ -43,7 +42,7 @@ router.post("/register", (req, res) => {
       },
       {
         Name: "custom:isSubscribed",
-        Value: subscribe.toString(),
+        Value: '1',
       },
     ],
   };
@@ -124,7 +123,7 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/customise", (req, res) => {
-  const { city, subscribe } = req.body;
+  const { city } = req.body;
 
   if (!req.session.user || !req.session.user.token) {
     return res.status(401).send("User not authenticated");
@@ -139,7 +138,7 @@ router.post("/customise", (req, res) => {
       },
       {
         Name: "custom:isSubscribed",
-        Value: subscribe.toString(),
+        Value: '1',
       },
     ],
   };
@@ -192,6 +191,7 @@ router.post("/forgot-password", (req, res) => {
     if (err) {
       return res.status(400).send(err.message || JSON.stringify(err));
     }
+
     res.json({
       message: "Password reset code sent successfully!",
       data: data,
@@ -220,27 +220,54 @@ router.get("/get-user-info", (req, res) => {
     const cityAttribute = data.UserAttributes.find(
       (attr) => attr.Name === "custom:City"
     );
-    const subscribeAttribute = data.UserAttributes.find(
-      (attr) => attr.Name === "custom:isSubscribed"
-    );
-
+    
     res.json({
       city: cityAttribute ? cityAttribute.Value : "",
-      isSubscribed: subscribeAttribute
-        ? subscribeAttribute.Value === "1"
-        : false,
     });
   });
 });
 
+
+router.post('/delete-account', async (req, res) => {
+  if (!req.session.user || !req.session.user.token) {
+    console.log('User session or token not found');
+    return res.status(401).send("User not authenticated");
+  }
+
+  const params = {
+    AccessToken: req.session.user.token,
+  };
+
+  try {
+    console.log('Deleting user with token:', req.session.user.token);
+    await cognito.deleteUser(params).promise();
+
+    // 销毁会话，避免重复发送响应
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+        return res.status(500).json({ error: 'Failed to destroy session' });
+      }
+      // 确保只发送一次响应
+      return res.status(200).json({ message: 'User account deleted successfully' });
+    });
+  } catch (error) {
+    console.error('Error deleting user account:', error);
+    return res.status(500).json({ error: 'Failed to delete user account' });
+  }
+});
+
+
 // 登出
 router.get("/logout", (req, res) => {
   req.session.destroy((err) => {
-    res.redirect("/"); // 重定向到登录页面
+    res.redirect("/");
+
   });
 });
 
 module.exports = router; // 确保正确导出 router
+
 
 // 添加一个可重用的函数来获取用户信息
 function fetchUserDetails(sessionToken) {
@@ -255,15 +282,9 @@ function fetchUserDetails(sessionToken) {
         const cityAttribute = data.UserAttributes.find(
           (attr) => attr.Name === "custom:City"
         );
-        const subscribeAttribute = data.UserAttributes.find(
-          (attr) => attr.Name === "custom:isSubscribed"
-        );
-
         resolve({
           city: cityAttribute ? cityAttribute.Value : "",
-          isSubscribed: subscribeAttribute
-            ? subscribeAttribute.Value === "1"
-            : false,
+
         });
       }
     });

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getGeoLocation, getWeather } = require('../public/js/weatherService');
+
+const { getGeoLocation, getWeather } = require('../modules/weatherService');
 const { fetchUserDetails } = require('../routes/users');
 const axios = require('axios');
+
 // 会话中间件检查登录状态
 function checkLogin(req, res, next) {
     if (req.session.loggedIn) {

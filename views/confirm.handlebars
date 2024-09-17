@@ -38,11 +38,11 @@
 
             const result = await response.json();
             messageDiv.style.color = 'green';
-            messageDiv.textContent = 'Email confirmed successfully! Redirecting to homepage...';
+            messageDiv.textContent = 'Email confirmed successfully! Redirecting to login...';
 
             // 在 2 秒后重定向到主页
             setTimeout(() => {
-                window.location.href = '/'; // 跳转到主页
+                window.location.href = '/login'; // 跳转到主页
             }, 2000);
 
         } catch (error) {
