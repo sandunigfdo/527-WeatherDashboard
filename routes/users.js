@@ -191,6 +191,7 @@ router.post("/forgot-password", (req, res) => {
     if (err) {
       return res.status(400).send(err.message || JSON.stringify(err));
     }
+
     res.json({
       message: "Password reset code sent successfully!",
       data: data,
@@ -219,7 +220,7 @@ router.get("/get-user-info", (req, res) => {
     const cityAttribute = data.UserAttributes.find(
       (attr) => attr.Name === "custom:City"
     );
-
+    
     res.json({
       city: cityAttribute ? cityAttribute.Value : "",
     });
@@ -261,6 +262,7 @@ router.post('/delete-account', async (req, res) => {
 router.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     res.redirect("/");
+
   });
 });
 
@@ -280,9 +282,9 @@ function fetchUserDetails(sessionToken) {
         const cityAttribute = data.UserAttributes.find(
           (attr) => attr.Name === "custom:City"
         );
-
         resolve({
           city: cityAttribute ? cityAttribute.Value : "",
+
         });
       }
     });
