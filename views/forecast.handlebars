@@ -1,0 +1,31 @@
+
+<div class="userform-section">
+<h1>7-Day Forecast for Hamilton</h1>
+
+{{#if error}}
+    <p>Error: {{error}}</p>
+{{else}}
+    {{#if forecast}}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Max Temperature</th>
+                    <th>Min Temperature</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each forecast}}
+                    <tr>
+                        <td>{{this.date}}</td>
+                        <td>{{this.maxTemp}}</td>
+                        <td>{{this.minTemp}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{else}}
+        <p>No forecast data available.</p>
+    {{/if}}
+{{/if}}
+</div>
