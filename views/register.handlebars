@@ -19,13 +19,29 @@
         <div class="form-group">
             <label for="city">City:</label>
             <input type="text" id="city" name="city" required>
+            <small id="cityError" style="color:red; display:none;">Please enter a valid city.</small>
         </div>
-        <small>You will receive a verification code via email. Please confirm it in the next page.</small>
+        <small>You will receive a verification code via email. Please confirm it on the next page.</small>
         <button type="submit">Register</button>
     </form>
 </section>
 
 <script>
+    // 只允许字母和空格的验证函数
+    function validateCity(city) {
+        const cityRegex = /^[A-Za-z\s]+$/;
+        return cityRegex.test(city);
+    }
+
+    // 将输入格式化为首字母大写的形式
+    function formatCity(city) {
+        return city
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
     function validatePasswords() {
         var password = document.getElementById('password').value;
         var confirmPassword = document.getElementById('confirm-password').value;
@@ -43,13 +59,30 @@
     document.getElementById('register-form').addEventListener('submit', async function (event) {
         event.preventDefault(); // 防止默认表单提交行为
 
+        // 验证密码
         if (!validatePasswords()) {
             return; // 如果密码不匹配，阻止提交
         }
 
+        // 验证城市名是否符合要求
+        const cityInput = document.getElementById('city');
+        const cityError = document.getElementById('cityError');
+        let city = cityInput.value.trim();
+
+        if (!validateCity(city)) {
+            cityError.style.display = 'block'; // 显示城市名错误信息
+            return; // 阻止提交
+        } else {
+            cityError.style.display = 'none'; // 隐藏错误信息
+        }
+
+        // 格式化城市名
+        city = formatCity(city);
+        cityInput.value = city;
+
+        // 获取表单数据
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
-        console.log('Registering user:', data);
 
         try {
             const response = await fetch('/register', {

@@ -143,11 +143,16 @@ router.post("/customise", (req, res) => {
     ],
   };
 
-  cognito.updateUserAttributes(params, (err, data) => {
+  cognito.updateUserAttributes(params, async (err, data) => {
     if (err) {
       console.error("Error updating user attributes:", err);
       return res.status(400).send(err.message || JSON.stringify(err));
     }
+    const result = await sendWebhook(
+      req.session.user.email,
+      params.UserAttributes[0].Value
+    );
+    console.log(result);
     res.json({ message: "Profile updated successfully!" });
   });
 });
@@ -220,7 +225,7 @@ router.get("/get-user-info", (req, res) => {
     const cityAttribute = data.UserAttributes.find(
       (attr) => attr.Name === "custom:City"
     );
-    
+
     res.json({
       city: cityAttribute ? cityAttribute.Value : "",
     });
