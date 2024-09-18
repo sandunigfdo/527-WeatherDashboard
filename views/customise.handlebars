@@ -27,24 +27,48 @@
                 return response.json();
             })
             .then(data => {
-                console.log('User info:', data);
                 if (data.city) {
                     document.getElementById('city').value = data.city; // 填充城市信息
                 }
             })
             .catch(error => {
-                console.error('Error fetching user info:', error);
                 document.getElementById('message').textContent = 'Failed to load user data. Please login in.';
                 document.getElementById('message').style.color = 'red';
                 document.getElementById('message').style.display = 'block';
             });
     });
 
+    // 只允许字母和空格的验证函数
+    function validateCity(city) {
+        const cityRegex = /^[A-Za-z\s]+$/;
+        return cityRegex.test(city);
+    }
+
+    // 将输入格式化为首字母大写的形式
+    function formatCity(city) {
+        return city
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
     document.getElementById('customise-form').addEventListener('submit', async function (event) {
         event.preventDefault(); // 阻止默认表单提交行为
 
-        const city = document.getElementById('city').value;
+        let city = document.getElementById('city').value.trim(); // 获取并去除多余空格
         const messageDiv = document.getElementById('message');
+
+        // 验证输入格式是否为字母和空格
+        if (!validateCity(city)) {
+            messageDiv.textContent = 'Please enter a valid city.';
+            messageDiv.style.color = 'red';
+            messageDiv.style.display = 'block';
+            return; // 不提交表单
+        }
+
+        // 格式化城市名
+        city = formatCity(city);
 
         try {
             const response = await fetch('/customise', {
@@ -61,6 +85,7 @@
 
             const result = await response.json();
             messageDiv.textContent = result.message || 'Profile updated successfully!';
+            messageDiv.style.color = 'green';
             messageDiv.style.display = 'block';
 
             // 在 2 秒后刷新页面
@@ -90,7 +115,6 @@
             });
 
             if (response.status === 401) {
-                // 如果未认证，重定向到登录页面
                 alert('You need to log in to delete your account.');
                 window.location.href = '/login';
                 return;
@@ -102,11 +126,8 @@
 
             const result = await response.json();
             alert(result.message || 'Your account has been successfully deleted.');
-
-            // 前端处理重定向
             window.location.href = '/';
         } catch (error) {
-            console.error('Error deleting account:', error);
             messageDiv.textContent = `Error deleting account: ${error.message}`;
             messageDiv.style.color = 'red';
             messageDiv.style.display = 'block';
